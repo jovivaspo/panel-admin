@@ -3,6 +3,10 @@ import { makeStyles, ThemeProvider } from '@material-ui/core/styles'
 import { ThemeContext } from './context/ThemeContext';
 import { useContext, useEffect, useState } from 'react';
 import {Layout} from './components/Layout';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import Users from './pages/Users';
+import User from './pages/User';
 
 const useStyles = makeStyles((theme)=>({
   app:{
@@ -25,7 +29,16 @@ function App() {
   return (
     <ThemeProvider theme={mode}>
       <div className={classes.app}>
+        <Router>
         <Header />
+        <Layout>
+        <Routes>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/users' element={<Users/>}/>
+            <Route path='/user' element={<User/>}/>
+          </Routes>
+        </Layout>
+        </Router>
         <Layout/>
       </div>
     </ThemeProvider>

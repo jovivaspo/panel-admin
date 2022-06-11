@@ -5,15 +5,17 @@ import { makeStyles } from '@material-ui/core'
 const useStyles = makeStyles((theme) => ({
     layout: {
         height: '100vh',
-        backgroundColor: '#fff',
-        marginTop:24
+        backgroundColor: theme.palette.secondary.main,
+        padding:24,
     }
 }))
 
-const Layout = () => {
+const Layout = ({children}) => {
     const classes = useStyles()
     return (
-                <Container maxWidth="lg" className={classes.layout} />
+                <div className={classes.layout}>
+                    {children}
+                </div>
     )
 }
 

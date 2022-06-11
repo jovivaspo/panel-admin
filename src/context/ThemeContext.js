@@ -14,16 +14,17 @@ const ThemeAppProvider = ({ children }) => {
     const themeApp = createTheme({
         palette: {
             primary: {
-                main: theme === "light" ? "#009eb2" : "#333333",
+                main: theme === "light" ? "#33c9dc" : "#333333",
                 contrastText: '#fff',
-
             },
 
             secondary: {
-                main: theme === "light" ? "#33c9dc" : "#5b5b5b",
+                main: theme === "light" ? "#fff" : "#5b5b5b",
                 contrastText: '#fff',
+            },
+            text:{
+                primary:theme === "light" ? "#black" : "#fff",
             }
-
         }
     })
 
