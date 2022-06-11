@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { Header } from './components/Header';
+import { makeStyles, ThemeProvider } from '@material-ui/core/styles'
+import { ThemeContext } from './context/ThemeContext';
+import { useContext, useEffect, useState } from 'react';
+import {Layout} from './components/Layout';
+
+const useStyles = makeStyles((theme)=>({
+  app:{
+    height: '100vh',
+    width: '100vw'
+  }
+}))
 
 function App() {
+  const { themeApp, theme } = useContext(ThemeContext)
+  const [mode, setMode] = useState(themeApp)
+  const classes = useStyles()
+
+  useEffect(()=>{
+    setMode(themeApp)
+  },[theme])
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={mode}>
+      <div className={classes.app}>
+        <Header />
+        <Layout/>
+      </div>
+    </ThemeProvider>
+
   );
 }
 
