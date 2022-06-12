@@ -2,8 +2,9 @@ import { useState, useRef } from 'react'
 import { Button, FormControl, makeStyles, Input, InputLabel, FormHelperText } from '@material-ui/core'
 import Title from './Title'
 import { SpinnerCircular } from 'spinners-react';
-import { helpHttp } from '../services/helpHttp';
-import {api} from '../services/urlApi'
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/reducer/userReducer';
+
 
 
 
@@ -41,7 +42,11 @@ const useStyles = makeStyles((theme) => ({
 
 const initialForm = {
     email: "",
-    password: ""
+    password: "",
+    error:{
+        email:"",
+        password:""
+    }
 }
 
 
@@ -51,6 +56,7 @@ const FormLogin = () => {
     const [loading, setLoading] = useState(false)
     const errorEmailRef = useRef()
     const errorPasswordRef = useRef()
+    const dispatch = useDispatch()
 
     const handleChange = (e) => {
         
@@ -79,22 +85,9 @@ const FormLogin = () => {
 
             setLoading(true)
 
-            const res = await helpHttp().post(api.login,{
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: {
-                    email: form.email,
-                    password: form.password
-                }
-            })
+           dispatch(login({email: form.email, password: form.password}))
 
-            console.log(res)
-            if(res.error){
-                if (res.error === "Correo incorrecto") errorEmailRef.current.innerText = res.error
-                if(res.error === 'La contraseña no es correcta') errorPasswordRef.current.innerText = res.error
-                return false
-            } 
+           
            
         }catch(error){
 

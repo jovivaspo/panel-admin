@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Users from './pages/Users';
 import User from './pages/User';
+import { useSelector } from 'react-redux/es/exports';
 
 const useStyles = makeStyles((theme)=>({
   app:{
@@ -19,6 +20,7 @@ function App() {
   const { themeApp, theme } = useContext(ThemeContext)
   const [mode, setMode] = useState(themeApp)
   const classes = useStyles()
+  const user = useSelector(state => state.user)
 
   useEffect(()=>{
     setMode(themeApp)
