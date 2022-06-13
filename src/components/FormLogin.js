@@ -1,19 +1,18 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Button, FormControl, makeStyles, Input, InputLabel, FormHelperText } from '@material-ui/core'
 import Title from './Title'
 import { SpinnerCircular } from 'spinners-react';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/reducer/userReducer';
-
-
-
+import {useNavigate} from 'react-router-dom'
+import { useSelector } from 'react-redux/es/exports';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
-          margin: theme.spacing(1),
+            margin: theme.spacing(1),
         },
-      },
+    },
     containerForm: {
         display: "flex",
         flexDirection: "column",
@@ -34,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
         width: '90%'
     },
 
-    error:{
-        color:'red'
+    error: {
+        color: 'red'
     }
 
 }))
@@ -43,9 +42,9 @@ const useStyles = makeStyles((theme) => ({
 const initialForm = {
     email: "",
     password: "",
-    error:{
-        email:"",
-        password:""
+    error: {
+        email: "",
+        password: ""
     }
 }
 
@@ -53,95 +52,112 @@ const initialForm = {
 
 const FormLogin = () => {
     const [form, setForm] = useState(initialForm)
-    const [loading, setLoading] = useState(false)
+
     const errorEmailRef = useRef()
     const errorPasswordRef = useRef()
     const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
-        
+
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = async () => {
-
-        try{
-            errorPasswordRef.current.innerText = ""
-
-            errorEmailRef.current.innerText = ""
-            
-            if(form.email === "") errorEmailRef.current.innerText = "Complete este campo"
-    
-            if(form.password === "") errorPasswordRef.current.innerText = "Complete este campo"
-
-            if (form.email === "" || form.password === "") return false
-
-            if (!form.email.match( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)){
-
-                errorEmailRef.current.innerText = "Correo no válido"
-
-                return false
-            }
-
-            setLoading(true)
-
-           dispatch(login({email: form.email, password: form.password}))
-
-           
-           
-        }catch(error){
-
-            console.log(error)
-
-        }finally{
-
-           setLoading(false)
-           
+    useEffect(() => {
+        console.log("first")
+        if (user.error === "Correo incorrecto"){
+            errorEmailRef.current.innerText = "Correo incorrecto"
         }
-       
-      
+        if (user.error === "La contraseña no es correcta"){
+            errorPasswordRef.current.innerText = "La contraseña no es correcta"
+        }
+          
+}, [user.error])
+
+const handleSubmit = async () => {
+
+    try {
+        errorPasswordRef.current.innerText = ""
+
+        errorEmailRef.current.innerText = ""
+
+        if (form.email === "") errorEmailRef.current.innerText = "Complete este campo"
+
+        if (form.password === "") errorPasswordRef.current.innerText = "Complete este campo"
+
+        if (form.email === "" || form.password === "") return false
+
+        if (!form.email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+
+            errorEmailRef.current.innerText = "Correo no válido"
+
+            return false
+        }
+
+
+        dispatch(login({ email: form.email, password: form.password }))
+        .unwrap()
+        .then((res) => {
+            //Tiene éxito login.fullfilled
+           console.log(res)
+        })
+        .catch(err=>{
+            //Error login.rejected
+            console.log(err)
+        })
+
+
+
+    } catch (error) {
+
+        console.log(error)
+
     }
 
-   
-    const classes = useStyles()
-    return (
-        <div className={classes.containerForm}>
-            <Title title={"Inicia sesión"} />
-            <form className={classes.form}>
-                <FormControl >
-                    <InputLabel htmlFor="email">Correo</InputLabel>
-                    <Input
-                        id="email"
-                        name='email'
-                        type='email'
-                        value={form.email}
-                        onChange={handleChange}
-                        />
-                          <FormHelperText className={classes.error} ref={errorEmailRef}></FormHelperText>
-                </FormControl>
-                <FormControl>
-                    <InputLabel htmlFor="password">Contraseña</InputLabel>
-                    <Input
-                        id="password"
-                        type="password"
-                        name='password'
-                        value={form.password}
-                        onChange={handleChange}
-                        />
-                          <FormHelperText className={classes.error} ref={errorPasswordRef}></FormHelperText>
-                </FormControl>
 
-                <Button variant="contained"
-                 className={classes.loginBtn}
-                  color="primary"
-                   onClick={handleSubmit}>
-                    {loading? <SpinnerCircular size={30} thickness={100} speed={100} color="rgba(255, 255, 255, 1)" secondaryColor="rgba(0, 0, 0, 0.44)"/> : "Login"}
-                    </Button>
+}
 
-            </form>
 
-        </div>
-    )
+const classes = useStyles()
+return (
+    <div className={classes.containerForm}>
+        <Title title={"Inicia sesión"} />
+        <form className={classes.form}>
+            <FormControl >
+                <InputLabel htmlFor="email">Correo</InputLabel>
+                <Input
+                    id="email"
+                    name='email'
+                    type='email'
+                    value={form.email}
+                    onChange={handleChange}
+                />
+                <FormHelperText className={classes.error} ref={errorEmailRef}></FormHelperText>
+            </FormControl>
+            <FormControl>
+                <InputLabel htmlFor="password">Contraseña</InputLabel>
+                <Input
+                    id="password"
+                    type="password"
+                    name='password'
+                    value={form.password}
+                    onChange={handleChange}
+                />
+                <FormHelperText className={classes.error} ref={errorPasswordRef}></FormHelperText>
+            </FormControl>
+
+            <Button variant="contained"
+                className={classes.loginBtn}
+                color="primary"
+                onClick={handleSubmit}>
+                {user.loading ? <SpinnerCircular size={30} thickness={100} speed={100} color="rgba(255, 255, 255, 1)" secondaryColor="rgba(0, 0, 0, 0.44)" /> : "Login"}
+            </Button>
+
+        </form>
+
+    </div>
+)
 }
 
 export default FormLogin

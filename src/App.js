@@ -21,6 +21,10 @@ function App() {
   const [mode, setMode] = useState(themeApp)
   const classes = useStyles()
   const user = useSelector(state => state.user)
+  const message = useSelector(state => state.message)
+
+  console.log(user)
+  console.log(message)
 
   useEffect(()=>{
     setMode(themeApp)

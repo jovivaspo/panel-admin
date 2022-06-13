@@ -1,44 +1,62 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { helpHttp } from "../../services/helpHttp"
-import { api } from "../../services/urlApi"
+import { auth } from "../../services/auth"
+import { setMessage } from "./messageReducer"
+
 
 export const login = createAsyncThunk('/login',
-    async (email,password)=> {
-        return helpHttp().post(api.login,{
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: {
-                email,
-                password
+    async ({ email, password }, thunkAPI) => {
+        try {
+            const res = await auth.login(email, password)
+            if(res.error){
+                return thunkAPI.rejectWithValue(res.error)
             }
-        })
-        .then(res=> console.log(res))
+         
+            localStorage.setItem("token", res.token)
+            thunkAPI.dispatch(setMessage(res.message))
+            return res.token
+            
+        } catch (error) {
+            console.log(error)
+        }
     })
+
+export const logOut = createAsyncThunk("/logout", async (thunkAPI) => {
+    await auth.logOut()
+    thunkAPI.dispatch(setMessage("Ha cerrado sesión"))
+})
 
 const userSlice = createSlice({
     name: "user",
-    initialState:{
-        user: localStorage.getItem("user")? JSON.parse(localStorage.getItem("user")) : null,
-        error: null,
-        loading: false
+    initialState: {
+        token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
+        loading: false,
+        error:""
     },
-    extraReducers:{
-        [login.pending]: (state, action) => {
-            state.loading =  true
+    extraReducers: {
+        [login.pending]: (state) => {
+            state.loading = true
+            state.error = ""
+
         },
-        [login.fulfilled]: (state,{payload})=>{
-            state.user = payload
+        [login.fulfilled]: (state, action) => {
+            state.token = action.payload
             state.loading = false
-            
+
         },
-        [login.rejected]: (state, payload) => {
-            state.error = payload
+        [login.rejected]: (state, action) => {
+            state.error =  action.payload
+            state.token = null
+            state.loading = false
+        },
+        [logOut.fulfilled]: (state) => {
+            state.token = null
+            state.loading = false
+            state.error = ""
         }
     }
-   
 
-}) 
+
+})
 
 export default userSlice.reducer
 
