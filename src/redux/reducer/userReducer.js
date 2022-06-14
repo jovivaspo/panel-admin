@@ -11,18 +11,18 @@ export const login = createAsyncThunk('/login',
                 return thunkAPI.rejectWithValue(res.error)
             }
          
-            localStorage.setItem("token", res.token)
+          
             thunkAPI.dispatch(setMessage(res.message))
             return res.token
             
         } catch (error) {
             console.log(error)
+            return thunkAPI.rejectWithValue(error)
         }
     })
 
-export const logOut = createAsyncThunk("/logout", async (thunkAPI) => {
-    await auth.logOut()
-    thunkAPI.dispatch(setMessage("Ha cerrado sesión"))
+export const logOut = createAsyncThunk("/logout", async () => {
+    auth.logOut()
 })
 
 const userSlice = createSlice({

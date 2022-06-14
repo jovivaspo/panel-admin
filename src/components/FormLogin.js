@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { Button, FormControl, makeStyles, Input, InputLabel, FormHelperText } from '@material-ui/core'
 import Title from './Title'
 import { SpinnerCircular } from 'spinners-react';
@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../redux/reducer/userReducer';
 import {useNavigate} from 'react-router-dom'
 import { useSelector } from 'react-redux/es/exports';
+import { setMessage } from '../redux/reducer/messageReducer';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -64,20 +65,10 @@ const FormLogin = () => {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
-    useEffect(() => {
-        console.log("first")
-        if (user.error === "Correo incorrecto"){
-            errorEmailRef.current.innerText = "Correo incorrecto"
-        }
-        if (user.error === "La contraseña no es correcta"){
-            errorPasswordRef.current.innerText = "La contraseña no es correcta"
-        }
-          
-}, [user.error])
 
-const handleSubmit = async () => {
+const handleSubmit = () => {
 
-    try {
+  
         errorPasswordRef.current.innerText = ""
 
         errorEmailRef.current.innerText = ""
@@ -98,24 +89,23 @@ const handleSubmit = async () => {
 
         dispatch(login({ email: form.email, password: form.password }))
         .unwrap()
-        .then((res) => {
-            //Tiene éxito login.fullfilled
-           console.log(res)
+        .then((token) => {
+            localStorage.setItem("token", token)
+            navigate("/")
         })
-        .catch(err=>{
+        .catch(error=>{
             //Error login.rejected
-            console.log(err)
+            if (error === "Correo incorrecto"){
+                errorEmailRef.current.innerText = "Correo incorrecto"
+            }
+            if (error === "La contraseña no es correcta"){
+                errorPasswordRef.current.innerText = "La contraseña no es correcta"
+            }else{
+                dispatch(setMessage("Lo sentimos, inténtelo más tarde"))
+                setForm(initialForm)
+            }
+
         })
-
-
-
-    } catch (error) {
-
-        console.log(error)
-
-    }
-
-
 }
 
 

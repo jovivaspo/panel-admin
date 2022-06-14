@@ -2,15 +2,17 @@ import { Header } from './components/Header';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles'
 import { ThemeContext } from './context/ThemeContext';
 import { useContext, useEffect, useState } from 'react';
-import {Layout} from './components/Layout';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Layout } from './components/Layout';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
-import Users from './pages/Users';
 import User from './pages/User';
 import { useSelector } from 'react-redux/es/exports';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import Alert from './components/Alert';
 
-const useStyles = makeStyles((theme)=>({
-  app:{
+const useStyles = makeStyles((theme) => ({
+  app: {
     height: '100vh',
     width: '100vw'
   }
@@ -23,29 +25,35 @@ function App() {
   const user = useSelector(state => state.user)
   const message = useSelector(state => state.message)
 
-  console.log(user)
-  console.log(message)
 
-  useEffect(()=>{
+  useEffect(() => {
     setMode(themeApp)
-  },[theme])
+  }, [theme])
 
-
+console.log(message)
 
   return (
     <ThemeProvider theme={mode}>
       <div className={classes.app}>
         <Router>
-        <Header />
-        <Layout>
-        <Routes>
-            <Route path='/login' element={<Login/>}/>
-            <Route path='/users' element={<Users/>}/>
-            <Route path='/user' element={<User/>}/>
-          </Routes>
-        </Layout>
+          <Header />
+          <Layout>
+            {user.token ?
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/user' element={<User />} />
+                <Route path='*' element={<NotFound />} />
+              </Routes>
+              :
+              <Routes>
+                <Route path='/login' element={<Login/>} />
+                <Route path='*' element={<Login/>} />
+              </Routes>
+            }
+            <Alert/>
+          </Layout>
         </Router>
-        <Layout/>
+        <Layout />
       </div>
     </ThemeProvider>
 
