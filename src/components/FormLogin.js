@@ -101,7 +101,9 @@ const handleSubmit = () => {
             if (error === "La contraseña no es correcta"){
                 errorPasswordRef.current.innerText = "La contraseña no es correcta"
             }else{
-                dispatch(setMessage("Lo sentimos, inténtelo más tarde"))
+                dispatch(setMessage({message: "Lo sentimos, inténtelo más tarde",
+                type:"error"
+            }))
                 setForm(initialForm)
             }
 

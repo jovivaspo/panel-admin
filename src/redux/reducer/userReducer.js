@@ -7,17 +7,21 @@ export const login = createAsyncThunk('/login',
     async ({ email, password }, thunkAPI) => {
         try {
             const res = await auth.login(email, password)
+            if(!res){
+                throw new Error('Error en el servidor')
+            }
             if(res.error){
                 return thunkAPI.rejectWithValue(res.error)
             }
-         
-          
-            thunkAPI.dispatch(setMessage(res.message))
+            thunkAPI.dispatch(setMessage({
+                message:res.message,
+                type:"success"
+            }))
             return res.token
             
         } catch (error) {
-            console.log(error)
-            return thunkAPI.rejectWithValue(error)
+            
+            return thunkAPI.rejectWithValue(error.message)
         }
     })
 

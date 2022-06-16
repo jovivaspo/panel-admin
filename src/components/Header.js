@@ -45,10 +45,13 @@ const Header = () => {
     const navigate = useNavigate()
   
     const handleLogOut = () => {
-        console.log("se pulsó")
-        dispatch(logOut())
-        dispatch(setMessage("Ha cerrado sesión"))
+        dispatch(setMessage({
+            message:"Sesión cerrada",
+            type:"info"
+        }))
 
+        dispatch(logOut())
+      
     }
 
     useEffect(()=>{
@@ -70,7 +73,6 @@ const Header = () => {
                     </Typography>
                     <ButtonTheme />
                     {user.token &&  <Button color='inherit' onClick={handleLogOut}>Logout</Button>}
-                   
                 </Toolbar>
             </AppBar>
         </div>

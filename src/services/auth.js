@@ -22,7 +22,7 @@ auth.login = async (email, password) => {
 }
 
 auth.logOut = () => {
-    console.log("a")
+ 
     localStorage.removeItem("token")
 }
 
