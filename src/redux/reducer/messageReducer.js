@@ -14,10 +14,10 @@ const messageSlice = createSlice({
             }
         },
 
-        clearMessage: () => {
+        clearMessage: (state) => {
             return {
-                message: "",
-                type: ""
+                ...state,message: "",
+                
             }
         }
     }

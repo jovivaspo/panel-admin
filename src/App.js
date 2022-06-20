@@ -23,14 +23,14 @@ function App() {
   const [mode, setMode] = useState(themeApp)
   const classes = useStyles()
   const user = useSelector(state => state.user)
-  const message = useSelector(state => state.message)
-
 
   useEffect(() => {
     setMode(themeApp)
   }, [theme])
 
-console.log(message)
+  
+
+//console.log(message)
 
   return (
     <ThemeProvider theme={mode}>
@@ -41,7 +41,7 @@ console.log(message)
             {user.token ?
               <Routes>
                 <Route path='/' element={<Home />} />
-                <Route path='/user' element={<User />} />
+                <Route path='/user/:id' element={<User />} />
                 <Route path='*' element={<NotFound />} />
               </Routes>
               :
