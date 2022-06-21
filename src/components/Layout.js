@@ -1,22 +1,15 @@
-import { Container } from '@material-ui/core'
 import React from 'react'
-import { makeStyles } from '@material-ui/core'
+import './Layout.css'
 
-const useStyles = makeStyles((theme) => ({
-    layout: {
-        height: '100vh',
-        backgroundColor: theme.palette.secondary.main,
-        padding:24,
-    }
-}))
-
-const Layout = ({children}) => {
-    const classes = useStyles()
-    return (
-                <div className={classes.layout}>
-                    {children}
-                </div>
-    )
+const Layout = ({theme,children}) => {
+  return (
+    <div className='layout-app' style={{
+        backgroundColor:theme.backgroud,
+        color:theme.text
+    }}>
+        {children}
+    </div>
+  )
 }
 
-export { Layout }
+export  {Layout}

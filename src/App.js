@@ -1,46 +1,39 @@
-import { Header } from './components/Header';
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles'
-import { ThemeContext } from './context/ThemeContext';
-import { useContext, useEffect, useState } from 'react';
-import { Layout } from './components/Layout';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import Login from './pages/Login';
-import User from './pages/User';
-import { useSelector } from 'react-redux/es/exports';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
-import Alert from './components/Alert';
+import { ThemeContext } from './context/ThemeContext'
+import { useContext, useEffect, useState } from 'react'
+import { Layout } from './components/Layout'
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
+import Login from './pages/Login'
+import User from './pages/User'
+import { useSelector } from 'react-redux/es/exports'
+import Home from './pages/Home'
+import NotFound from './pages/NotFound'
+import './App.css'
+import Sidebar from './components/Sidebar'
+import Notes from './pages/Notes'
 
-const useStyles = makeStyles((theme) => ({
-  app: {
-    height: '100vh',
-    width: '100vw'
-  }
-}))
+
+
 
 function App() {
-  const { themeApp, theme } = useContext(ThemeContext)
-  const [mode, setMode] = useState(themeApp)
-  const classes = useStyles()
-  const user = useSelector(state => state.user)
+  const { theme } = useContext(ThemeContext)
 
-  useEffect(() => {
-    setMode(themeApp)
-  }, [theme])
+  const admin = useSelector(state => state.admin)
 
-  
 
-//console.log(message)
+  console.log(theme)
 
   return (
-    <ThemeProvider theme={mode}>
-      <div className={classes.app}>
+
+      <div className='app' style={{
+        backgroundColor:theme.backgroud
+      }}>
         <Router>
-          <Header />
-          <Layout>
-            {user.token ?
+          <Layout theme={theme}>
+            <Sidebar theme={theme}/>
+            {admin.token ?
               <Routes>
                 <Route path='/' element={<Home />} />
+                <Route path='/notes' element={<Notes />} />
                 <Route path='/user/:id' element={<User />} />
                 <Route path='*' element={<NotFound />} />
               </Routes>
@@ -50,12 +43,11 @@ function App() {
                 <Route path='*' element={<Login/>} />
               </Routes>
             }
-            <Alert/>
+          
           </Layout>
         </Router>
-        <Layout />
       </div>
-    </ThemeProvider>
+
 
   );
 }

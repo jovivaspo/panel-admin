@@ -1,21 +1,19 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { helpHttp } from '../services/helpHttp'
-import { api } from '../services/urlApi'
 import { getUsers } from '../redux/reducer/usersReducer'
-import { Table } from '../components/Table'
+
 
 const Home = () => {
   const dispatch = useDispatch()
   const {users} = useSelector(state => state.users)
-  const user = useSelector(state => state.user)
+  const admin = useSelector(state => state.admin)
 
   useEffect(() => {
-      dispatch(getUsers(user.token))
+      dispatch(getUsers(admin.token))
   }, [])
   return (
     <div>
-     { users && <Table users={users}/>}
+    
     </div>
   )
 }

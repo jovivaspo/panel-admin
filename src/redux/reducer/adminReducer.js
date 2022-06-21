@@ -1,40 +1,50 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { auth } from "../../services/auth"
+import { helpHttp } from "../../services/helpHttp"
+import { api } from "../../services/urlApi"
 import { setMessage } from "./messageReducer"
 
 
 export const login = createAsyncThunk('/login',
     async ({ email, password }, thunkAPI) => {
         try {
-            const res = await auth.login(email, password)
-            if(!res){
+            const res = await helpHttp().post(api.login, {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: {
+                    email,
+                    password
+                }
+            })
+
+            if (!res) {
                 throw new Error('Error en el servidor')
             }
-            if(res.error){
+            if (res.error) {
                 return thunkAPI.rejectWithValue(res.error)
             }
             thunkAPI.dispatch(setMessage({
-                message:res.message,
-                type:"success"
+                message: res.message,
+                type: "success"
             }))
             return res.token
-            
+
         } catch (error) {
-            
+
             return thunkAPI.rejectWithValue(error.message)
         }
     })
 
 export const logOut = createAsyncThunk("/logout", async () => {
-    auth.logOut()
+    localStorage.removeItem("token")
 })
 
-const userSlice = createSlice({
-    name: "user",
+const adminSlice = createSlice({
+    name: "admin",
     initialState: {
         token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
         loading: false,
-        error:""
+        error: ""
     },
     extraReducers: {
         [login.pending]: (state) => {
@@ -48,7 +58,7 @@ const userSlice = createSlice({
 
         },
         [login.rejected]: (state, action) => {
-            state.error =  action.payload
+            state.error = action.payload
             state.token = null
             state.loading = false
         },
@@ -62,5 +72,5 @@ const userSlice = createSlice({
 
 })
 
-export default userSlice.reducer
+export default adminSlice.reducer
 
