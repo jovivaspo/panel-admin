@@ -4,7 +4,7 @@ import './Layout.css'
 const Layout = ({theme,children}) => {
   return (
     <div className='layout-app' style={{
-        backgroundColor:theme.backgroud,
+        backgroundColor:theme.background,
         color:theme.text
     }}>
         {children}

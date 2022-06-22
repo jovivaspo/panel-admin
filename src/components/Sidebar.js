@@ -6,10 +6,10 @@ import Menu from './Menu'
 const Sidebar = ({ theme }) => {
     return (
         <div className='sidebar' style={{
-            background: theme.backgroud,
+            background: theme.background,
             color: theme.text,
         }}>
-            <h2>Dashborad</h2>
+            <h2 className='title-dashboard'>Dashborad</h2>
             <Menu theme={theme}/>
             <ButtonTheme />
         </div>

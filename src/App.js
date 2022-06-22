@@ -16,37 +16,34 @@ import Notes from './pages/Notes'
 
 function App() {
   const { theme } = useContext(ThemeContext)
-
   const admin = useSelector(state => state.admin)
 
 
-  console.log(theme)
-
   return (
 
-      <div className='app' style={{
-        backgroundColor:theme.backgroud
-      }}>
-        <Router>
-          <Layout theme={theme}>
-            <Sidebar theme={theme}/>
-            {admin.token ?
+    <div className='app' style={{
+      backgroundColor: theme.background
+    }}>
+      <Router>
+        {admin.token ?
+        
+            <Layout theme={theme}>
+              <Sidebar theme={theme} />
               <Routes>
-                <Route path='/' element={<Home />} />
+                <Route path='/usuarios' element={<Home />} />
                 <Route path='/notes' element={<Notes />} />
                 <Route path='/user/:id' element={<User />} />
                 <Route path='*' element={<NotFound />} />
               </Routes>
-              :
-              <Routes>
-                <Route path='/login' element={<Login/>} />
-                <Route path='*' element={<Login/>} />
-              </Routes>
-            }
-          
-          </Layout>
-        </Router>
-      </div>
+            </Layout>
+          :
+          <Routes>
+            <Route path='/login' element={<Login />} />
+            <Route path='*' element={<Login />} />
+          </Routes>
+        }
+    </Router>
+    </div >
 
 
   );

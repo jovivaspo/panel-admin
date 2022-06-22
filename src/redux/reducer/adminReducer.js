@@ -43,29 +43,18 @@ const adminSlice = createSlice({
     name: "admin",
     initialState: {
         token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
-        loading: false,
-        error: ""
     },
     extraReducers: {
-        [login.pending]: (state) => {
-            state.loading = true
-            state.error = ""
-
-        },
         [login.fulfilled]: (state, action) => {
             state.token = action.payload
-            state.loading = false
-
+           
         },
         [login.rejected]: (state, action) => {
-            state.error = action.payload
             state.token = null
-            state.loading = false
+           
         },
         [logOut.fulfilled]: (state) => {
             state.token = null
-            state.loading = false
-            state.error = ""
         }
     }
 

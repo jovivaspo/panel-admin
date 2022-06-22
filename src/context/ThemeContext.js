@@ -5,12 +5,12 @@ import { createContext, useState } from "react"
 const ThemeContext = createContext()
 
 const themeLight = {
-    backgroud: '#fff',
+    background: '#fff',
     text: '#000000',
 }
 
 const themeDark = {
-    backgroud: '#000000',
+    background: '#000000',
     text:'#fff'
 }
 

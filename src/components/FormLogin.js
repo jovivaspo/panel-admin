@@ -5,7 +5,7 @@ import { login } from '../redux/reducer/adminReducer';
 import {useNavigate} from 'react-router-dom'
 import { useSelector } from 'react-redux/es/exports';
 import { setMessage } from '../redux/reducer/messageReducer';
-
+import './FormLogin.css'
 
 const initialForm = {
     email: "",
@@ -22,6 +22,7 @@ const FormLogin = () => {
 
     const errorEmailRef = useRef()
     const errorPasswordRef = useRef()
+
     const dispatch = useDispatch()
     const admin = useSelector(state => state.admin)
     const navigate = useNavigate()
@@ -32,9 +33,10 @@ const FormLogin = () => {
     }
 
 
-const handleSubmit = () => {
+const handleSubmit = (e) => {
 
-  
+        e.preventDefault()
+
         errorPasswordRef.current.innerText = ""
 
         errorEmailRef.current.innerText = ""
@@ -47,7 +49,7 @@ const handleSubmit = () => {
 
         if (!form.email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
 
-            errorEmailRef.current.innerText = "Correo no válido"
+            errorEmailRef.current.innerText = "Formato de correo no válido"
 
             return false
         }
@@ -60,7 +62,7 @@ const handleSubmit = () => {
             navigate("/")
         })
         .catch(error=>{
-            //Error login.rejected
+            
             if (error === "Correo incorrecto"){
                 errorEmailRef.current.innerText = "Correo incorrecto"
             }
@@ -79,11 +81,17 @@ const handleSubmit = () => {
 
 
 return (
-    <div >
-        <form >
-           
-        </form>
+    <div className='container-login'>
+        <h2 className='title-login'>Iniciar sesión</h2>
+        <p className='subtitle-login'>Panel de administrador</p>
+        <form className='form-login' onSubmit={handleSubmit}>
+            <input className='input-email' type="text" name='email' placeholder='email' value={form.email} autoComplete='off' onChange={handleChange}/>
+            <span className='error-login' ref={errorEmailRef}></span>
 
+            <input className='input-password' type="password" name='password' placeholder='password' value={form.password} autoComplete='off' onChange={handleChange}/>
+            <span className='error-login' ref={errorPasswordRef}></span>
+            <button className='btn-login' type='submit'>Login</button>
+        </form>
     </div>
 )
 }
