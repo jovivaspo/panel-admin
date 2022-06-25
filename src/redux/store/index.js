@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import adminReducer from "../reducer/adminReducer"
+import loadingReducer from '../reducer/loadingReducer'
 import messageReducer from "../reducer/messageReducer"
 import usersReducer from '../reducer/usersReducer'
 
@@ -7,7 +8,8 @@ import usersReducer from '../reducer/usersReducer'
     reducer:{
         admin: adminReducer,
         message: messageReducer,
-        users: usersReducer
+        users: usersReducer,
+        loading: loadingReducer
     },
    
  })

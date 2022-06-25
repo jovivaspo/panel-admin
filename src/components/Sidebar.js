@@ -2,6 +2,7 @@ import React from 'react'
 import ButtonTheme from './ButtonTheme'
 import './Sidebar.css'
 import Menu from './Menu'
+import ButtonLogOut from './ButtonLogOut'
 
 const Sidebar = ({ theme }) => {
     return (
@@ -10,8 +11,12 @@ const Sidebar = ({ theme }) => {
             color: theme.text,
         }}>
             <h2 className='title-dashboard'>Dashborad</h2>
-            <Menu theme={theme}/>
-            <ButtonTheme />
+            <Menu theme={theme} />
+            <div>
+                <ButtonLogOut theme={theme} />
+                <ButtonTheme />
+            </div>
+
         </div>
     )
 }

@@ -27,10 +27,10 @@ export const login = createAsyncThunk('/login',
                 message: res.message,
                 type: "success"
             }))
+
             return res.token
 
         } catch (error) {
-
             return thunkAPI.rejectWithValue(error.message)
         }
     })
@@ -47,11 +47,11 @@ const adminSlice = createSlice({
     extraReducers: {
         [login.fulfilled]: (state, action) => {
             state.token = action.payload
-           
+
         },
         [login.rejected]: (state, action) => {
             state.token = null
-           
+
         },
         [logOut.fulfilled]: (state) => {
             state.token = null

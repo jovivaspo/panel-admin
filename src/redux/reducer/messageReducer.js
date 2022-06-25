@@ -16,7 +16,8 @@ const messageSlice = createSlice({
 
         clearMessage: (state) => {
             return {
-                ...state,message: "",
+                message: "",
+                type:""
                 
             }
         }
