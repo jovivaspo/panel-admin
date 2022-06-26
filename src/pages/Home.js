@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Table from '../components/Table'
 import { getUsers } from '../redux/reducer/usersReducer'
+
 
 
 const Home = () => {
@@ -12,9 +14,7 @@ const Home = () => {
       dispatch(getUsers(admin.token))
   }, [])
   return (
-    <div>
-    
-    </div>
+   <Table rows={users}/>
   )
 }
 

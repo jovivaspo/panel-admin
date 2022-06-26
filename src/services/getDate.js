@@ -5,8 +5,12 @@ export const getDate = (date) => {
     let year = newDate.getFullYear()
 
     if (month < 10) {
-        return (`${day}-0${month}-${year}`)
-    } else {
-        return (`${day}-${month}-${year}`)
+        month = (`0${month}`)
     }
+    if (day < 10) {
+        day = (`0${day}`)
+    }
+    
+    return (`${day}-${month}-${year}`)
+
 }

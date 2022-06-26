@@ -42,14 +42,14 @@ const userSlice = createSlice({
     name:"users",
     initialState:{
         users:[],
-        error: ""
+        
     },
     extraReducers:{
         [getUsers.fulfilled]: (state, action)=>{
             state.users = action.payload
         },
         [getUsers.rejected]: (state, action)=>{
-            state.error = action.payload
+           state.users = []
         }
     }
 

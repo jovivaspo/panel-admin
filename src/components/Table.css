@@ -1,0 +1,43 @@
+.container-table{
+    width: 80%;
+    margin: 0 auto;
+    padding: 16px;
+   
+
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+  }
+
+  th, td {
+    text-align: center;
+    padding: 8px;
+  }
+
+  thead th:nth-child(2),
+  tbody td:nth-child(2) {
+    max-width: 60px;
+    text-align: left;
+   }
+
+
+
+  td p{
+    font-size: 14px;
+  }
+
+
+  tbody tr.selected {
+    background-color: #ccc;
+  }
+  
+  
+
+
+
+
