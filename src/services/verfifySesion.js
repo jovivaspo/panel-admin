@@ -1,20 +1,25 @@
 import { logOut } from "../redux/reducer/adminReducer"
 import { setMessage } from "../redux/reducer/messageReducer"
 
-const verifySesion = ( error, thunkAPI) => {
-    console.log(error)
-    if (error === "jwt expired") {
-        const message = "La sesión ha caducado"
-        thunkAPI.dispatch(setMessage({
-            message: message,
-            type: "error"
-        }))
-        thunkAPI.dispatch(logOut())
-        
-        return message
-    }
-
-    else return null
+const jswError = {
+    "JsonWebTokenError": "Permiso denegado",
+    "TokenExpiredError": "Sesión caducada"
 }
 
-export {verifySesion}
+const verifySesion = (error, thunkAPI) => {
+    console.log(error)
+    const message = jswError[error] || null
+    
+    if (message) {
+
+        thunkAPI.dispatch(setMessage({
+            message,
+            type: "error"
+        }))
+
+        thunkAPI.dispatch(logOut())
+    }
+    return message
+}
+
+export { verifySesion }

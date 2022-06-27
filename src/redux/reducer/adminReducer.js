@@ -16,13 +16,15 @@ export const login = createAsyncThunk('/login',
                     password
                 }
             })
-
-            if (!res) {
+            console.log(res)
+            
+            if (!res.ok) {
                 throw new Error('Error en el servidor')
             }
             if (res.error) {
                 return thunkAPI.rejectWithValue(res.error)
             }
+           
             thunkAPI.dispatch(setMessage({
                 message: res.message,
                 type: "success"

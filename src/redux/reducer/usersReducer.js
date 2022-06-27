@@ -22,7 +22,6 @@ export const getUsers = createAsyncThunk('/getUsers', async (token,thunkAPI) =>{
           }
 
           if(res.error){
-            let message
             message = verifySesion(res.error,thunkAPI)
             if(!message){
               thunkAPI.dispatch(setMessage({
