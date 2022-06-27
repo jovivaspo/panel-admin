@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { helpHttp } from "../../services/helpHttp"
 import { api } from "../../services/urlApi"
 import { setMessage } from "./messageReducer"
+import { verifySesion } from "../../services/verfifySesion"
 
 export const getUsers = createAsyncThunk('/getUsers', async (token,thunkAPI) =>{
     try{
@@ -21,20 +22,24 @@ export const getUsers = createAsyncThunk('/getUsers', async (token,thunkAPI) =>{
           }
 
           if(res.error){
-            let err
-            if(res.error === "jwt expired") err = "La sesión ha caducado"
-            thunkAPI.dispatch(setMessage({
-                message:err || res.error,
+            let message
+            message = verifySesion(res.error,thunkAPI)
+            if(!message){
+              thunkAPI.dispatch(setMessage({
+                message: res.error,
                 type:"error"
               }))
-            return thunkAPI.rejectWithValue(res.error)
+            }
           }
           
           return res
 
     }catch(error){
      
-        return thunkAPI.rejectWithValue(error.message)
+        return  thunkAPI.dispatch(setMessage({
+                message: error.message,
+                type:"error"
+              }))
     }
 })
 

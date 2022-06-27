@@ -11,11 +11,15 @@ const Home = () => {
   const admin = useSelector(state => state.admin)
 
   useEffect(() => {
+    console.log('hola')
       dispatch(getUsers(admin.token))
   }, [])
   return (
-   <Table rows={users}/>
+    <>
+     {users.length > 0 && <Table rows={users}/>}
+    </>
   )
+  
 }
 
 export default Home
