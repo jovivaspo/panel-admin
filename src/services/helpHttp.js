@@ -1,16 +1,15 @@
 export const helpHttp= () =>{
 
-    const customFetch =  (endpoint, options) => {
+    const customFetch = async  (endpoint, options) => {
 
-        //console.log(endpoint)
         /*Cabecera por defecto*/
         const defaultHeaders = {
             accept: "application/json"
         }
 
         /*Manejador de errores si el endpoint no responde*/
-      /*  const controller = new AbortController()
-        options.signal = controller.signal*/
+        const controller = new AbortController()
+        options.signal = controller.signal
         /***********************************************/
 
         /*Filtro de opciones*/
@@ -21,18 +20,19 @@ export const helpHttp= () =>{
         
         
         /*Abortar la petición con el controller */
-      /*  setTimeout(()=>{
+         setTimeout(()=>{
             controller.abort()
-        },3500)*/
+        },5000)
 
         /*Realizamos el fetch*/
         return fetch(endpoint,options)
-        .then(res => {
-            console.log(res)
-            res.json()
-        })
+        .then(res =>res.json())
         .then(json=>json)
-        .catch(err=>err)
+        .catch(err=>{  
+            return {
+                error:"Lo sentimos, inténtelo más tarde",   
+            }
+        })
     }
 
     const get = (url,options = {}) =>  customFetch(url,options)

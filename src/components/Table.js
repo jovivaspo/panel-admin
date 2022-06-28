@@ -28,6 +28,10 @@ const columnHead = [
         name: "Usuario desde",
         id: 'createdAt',
     },
+    {
+        name:"Opciones",
+        id:"options"
+    }
 ]
 
 const Table = ({ rows }) => {

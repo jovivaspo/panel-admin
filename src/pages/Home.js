@@ -7,19 +7,25 @@ import { getUsers } from '../redux/reducer/usersReducer'
 
 const Home = () => {
   const dispatch = useDispatch()
-  const {users} = useSelector(state => state.users)
+  const { users } = useSelector(state => state.users)
   const admin = useSelector(state => state.admin)
 
   useEffect(() => {
-    console.log('hola')
-      dispatch(getUsers(admin.token))
+    dispatch(getUsers(admin.token))
   }, [])
+  console.log(users)
   return (
     <>
-     {users.length > 0 && <Table rows={users}/>}
+      {users.length === 0 ?
+        <h4 style={{
+          margin:40
+        }}>No hay usuarios registrados</h4>
+        :
+        <Table rows={users} />}
     </>
+
   )
-  
+
 }
 
 export default Home

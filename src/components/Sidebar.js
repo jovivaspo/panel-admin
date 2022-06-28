@@ -5,6 +5,7 @@ import Menu from './Menu'
 import ButtonLogOut from './ButtonLogOut'
 
 const Sidebar = ({ theme }) => {
+    console.log(theme)
     return (
         <div className='sidebar' style={{
             background: theme.background,

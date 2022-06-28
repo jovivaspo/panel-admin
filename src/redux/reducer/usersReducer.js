@@ -2,60 +2,90 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { helpHttp } from "../../services/helpHttp"
 import { api } from "../../services/urlApi"
 import { setMessage } from "./messageReducer"
-import { verifySesion } from "../../services/verfifySesion"
+import { handlerError } from "../../services/handlerError"
 
-export const getUsers = createAsyncThunk('/getUsers', async (token,thunkAPI) =>{
-    try{
-        const res = await helpHttp().get(api.users, {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-            }
-          })
+export const getUsers = createAsyncThunk('/getUsers', async (token, thunkAPI) => {
+  try {
+    const res = await helpHttp().get(api.users, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
 
-          if(!res){
-            thunkAPI.dispatch(setMessage({
-                message:"Error en el servidor",
-                type:"error"
-              }))
-            throw new Error('Error en el servidor')
-          }
+    if (res.error) {
+      const error = handlerError(res.error, thunkAPI)
 
-          if(res.error){
-            message = verifySesion(res.error,thunkAPI)
-            if(!message){
-              thunkAPI.dispatch(setMessage({
-                message: res.error,
-                type:"error"
-              }))
-            }
-          }
-          
-          return res
+      throw new Error(error)
 
-    }catch(error){
-     
-        return  thunkAPI.dispatch(setMessage({
-                message: error.message,
-                type:"error"
-              }))
     }
+
+    return res
+
+  } catch (error) {
+    console.log(error)
+    thunkAPI.dispatch(setMessage({
+      message: error.message,
+      type: "error"
+    }))
+    return thunkAPI.rejectWithValue()
+  }
+
 })
 
-const userSlice = createSlice({
-    name:"users",
-    initialState:{
-        users:[],
-        
-    },
-    extraReducers:{
-        [getUsers.fulfilled]: (state, action)=>{
-            state.users = action.payload
-        },
-        [getUsers.rejected]: (state, action)=>{
-           state.users = []
-        }
+export const deleteUser = createAsyncThunk('/deleteUser', async ({ token, userID }, thunkAPI) => {
+  try {
+
+    const res = await helpHttp().del(`${api.user}/${userID}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    })
+
+    if (res.error) {
+      const error = handlerError(res.error, thunkAPI)
+
+      throw new Error(error)
+
     }
+    console.log(res)
+    return res
+
+  } catch (error) {
+    console.log(error)
+    thunkAPI.dispatch(setMessage({
+      message: error.message,
+      type: "error"
+    }))
+  }
+  return thunkAPI.rejectWithValue()
+})
+
+
+
+const userSlice = createSlice({
+  name: "users",
+  initialState: {
+    users: [],
+
+  },
+  extraReducers: {
+    [getUsers.fulfilled]: (state, action) => {
+      state.users = action.payload
+    },
+    [getUsers.rejected]: (state, action) => {
+      
+      state.users = []
+    },
+    [deleteUser.fulfilled]: (state, action) => {
+      console.log(action.payload)
+      state.users = state.users.filter(user => user._id !== action.payload.id)
+    },
+    [deleteUser.rejected]: (state, action) => {
+      state.users = state.users
+    }
+  }
 
 })
 

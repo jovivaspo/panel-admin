@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/reducer/adminReducer';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux/es/exports';
 import { setMessage } from '../redux/reducer/messageReducer';
 import './FormLogin.css'
@@ -20,8 +20,8 @@ const initialForm = {
 
 const FormLogin = () => {
     const [form, setForm] = useState(initialForm)
-    const{ loading} = useSelector(state => state.loading)
-   
+    const { loading } = useSelector(state => state.loading)
+
     const errorEmailRef = useRef()
     const errorPasswordRef = useRef()
 
@@ -34,7 +34,7 @@ const FormLogin = () => {
     }
 
 
-const handleSubmit = (e) => {
+    const handleSubmit = (e) => {
 
         e.preventDefault()
 
@@ -57,46 +57,49 @@ const handleSubmit = (e) => {
 
         dispatch(setLoading())
         dispatch(login({ email: form.email, password: form.password }))
-        .unwrap()
-        .then((token) => {
-            localStorage.setItem("token", token)
-            navigate("/usuarios")
-            dispatch(setNotLoading())
-        })
-        .catch(error=>{
-            if (error === "Correo incorrecto"){
-                errorEmailRef.current.innerText = "Correo incorrecto"
-            }
-            if (error === "La contraseña no es correcta"){
-                errorPasswordRef.current.innerText = "La contraseña no es correcta"
-            }else{
-              
-                dispatch(setMessage({message: "Lo sentimos, inténtelo más tarde",
-                type:"error"
-            }))
-                setForm(initialForm)
+            .unwrap()
+            .then((token) => {
+                localStorage.setItem("token", token)
+                navigate("/usuarios")
                 dispatch(setNotLoading())
-            }
+            })
+            .catch(error => {
+             
+                if (error === "Correo incorrecto") {
+                    errorEmailRef.current.innerText = "Correo incorrecto"
+                }
+                else if (error === "La contraseña no es correcta") {
+                    errorPasswordRef.current.innerText = "La contraseña no es correcta"
+                } else {
+                    
+                    dispatch(setMessage({
+                        message: error,
+                        type: "error"
+                    }))
+                    setForm(initialForm)
+                }
 
-        })
-}
+                dispatch(setNotLoading())
+
+            })
+    }
 
 
 
-return (
-    <div className='container-login'>
-        <h2 className='title-login'>Iniciar sesión</h2>
-        <p className='subtitle-login'>Panel de administrador</p>
-        <form className='form-login' onSubmit={handleSubmit}>
-            <input className='input-email' type="text" name='email' placeholder='email' value={form.email} autoComplete='off' onChange={handleChange}/>
-            <span className='error-login' ref={errorEmailRef}></span>
+    return (
+        <div className='container-login'>
+            <h2 className='title-login'>Iniciar sesión</h2>
+            <p className='subtitle-login'>Panel de administrador</p>
+            <form className='form-login' onSubmit={handleSubmit}>
+                <input className='input-email' type="text" name='email' placeholder='email' value={form.email} autoComplete='off' onChange={handleChange} />
+                <span className='error-login' ref={errorEmailRef}></span>
 
-            <input className='input-password' type="password" name='password' placeholder='password' value={form.password} autoComplete='off' onChange={handleChange}/>
-            <span className='error-login' ref={errorPasswordRef}></span>
-            <button className='btn-login' type='submit'>{loading === false? "Login" : <Loader size={30}/>}</button>
-        </form>
-    </div>
-)
+                <input className='input-password' type="password" name='password' placeholder='password' value={form.password} autoComplete='off' onChange={handleChange} />
+                <span className='error-login' ref={errorPasswordRef}></span>
+                <button className='btn-login' type='submit'>{loading === false ? "Login" : <Loader size={30} />}</button>
+            </form>
+        </div>
+    )
 }
 
 export default FormLogin

@@ -1,0 +1,8 @@
+.opt-btn{
+    width: 28px;
+    height: 28px;
+    background-color: transparent;
+    border: 0.5px solid #ccc;
+    border-radius: 8px;
+    margin:4px
+}

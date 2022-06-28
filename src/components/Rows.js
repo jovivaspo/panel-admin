@@ -1,5 +1,7 @@
 import React from 'react'
 import {getDate} from '../services/getDate'
+import DeleteBtn from './DeleteBtn'
+import EditBtn from './EditBtn'
 
 const Rows = ({rows,columnHead}) => {
     return (
@@ -36,6 +38,15 @@ const Rows = ({rows,columnHead}) => {
                                     <td key={index}
                                         className={col.id}>
                                         <p>{getDate(row[col.id])}</p>
+                                    </td>
+                                )
+                            }
+                            if (col.id === 'options') {
+                                return (
+                                    <td key={index}
+                                        className={col.id}>
+                                        <EditBtn userID={row._id}/>
+                                        <DeleteBtn userID={row._id}/>
                                     </td>
                                 )
                             }

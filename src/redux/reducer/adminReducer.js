@@ -16,11 +16,7 @@ export const login = createAsyncThunk('/login',
                     password
                 }
             })
-            console.log(res)
-            
-            if (!res.ok) {
-                throw new Error('Error en el servidor')
-            }
+           
             if (res.error) {
                 return thunkAPI.rejectWithValue(res.error)
             }
@@ -33,6 +29,7 @@ export const login = createAsyncThunk('/login',
             return res.token
 
         } catch (error) {
+          
             return thunkAPI.rejectWithValue(error.message)
         }
     })
