@@ -6,9 +6,10 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 12px;
-    border-right:1px solid #ccc 
+    border-right:1px solid #1D9BF0 
 }
 
 .title-dashboard{
     font-size: 32px;
+    color: #1D9BF0;
 }

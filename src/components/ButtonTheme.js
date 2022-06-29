@@ -10,10 +10,10 @@ const ButtonTheme = () => {
     <button onClick={handleChange} className="button-theme"
     style={{
       backgroundColor: isHover && theme.background === '#fff'?
-       'rgb(224, 224, 224)'
+       '#1D9BF0'
         :
          (isHover && theme.background === "#000000" ?
-          '#242323' : 
+          '#1D9BF0' : 
           theme.background)
   }}
     onMouseEnter={() => setIsHover(true)}

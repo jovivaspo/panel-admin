@@ -2,10 +2,14 @@ import React from 'react'
 import ButtonTheme from './ButtonTheme'
 import './Sidebar.css'
 import Menu from './Menu'
-import ButtonLogOut from './ButtonLogOut'
+import Button from './Button'
+import { useLogOut } from '../Hooks/useLogOut'
+
 
 const Sidebar = ({ theme }) => {
-    console.log(theme)
+
+    const {logOutAction} = useLogOut()
+
     return (
         <div className='sidebar' style={{
             background: theme.background,
@@ -14,7 +18,7 @@ const Sidebar = ({ theme }) => {
             <h2 className='title-dashboard'>Dashborad</h2>
             <Menu theme={theme} />
             <div>
-                <ButtonLogOut theme={theme} />
+                <Button content={"Log out"} action={logOutAction}/>
                 <ButtonTheme />
             </div>
 
