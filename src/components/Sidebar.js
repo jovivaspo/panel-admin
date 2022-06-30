@@ -3,7 +3,7 @@ import ButtonTheme from './ButtonTheme'
 import './Sidebar.css'
 import Menu from './Menu'
 import Button from './Button'
-import { useLogOut } from '../Hooks/useLogOut'
+import { useLogOut } from '../hooks/useLogOut'
 
 
 const Sidebar = ({ theme }) => {

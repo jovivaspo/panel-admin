@@ -6,7 +6,6 @@ const useModal = () => {
  
     
   const handleModal = () => {
-    console.log("tal")
     setShow(!show)
   }
 

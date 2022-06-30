@@ -46,6 +46,24 @@
     border-bottom: 1px solid #1D9BF0
 }
 
+.container-warn{
+    width: 80%;
+    background-color: #FF9800;
+    height: 30px;
+    margin-top: -40px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-warn{
+    color: #fff;
+    font-weight: 500;
+}
+
 .container-btn{
     width: 100%;
     display: flex;

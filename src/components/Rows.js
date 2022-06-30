@@ -1,9 +1,13 @@
 import React from 'react'
+import { useCheck } from '../hooks/useCheck'
 import {getDate} from '../services/getDate'
+import Check from './Check'
 import DeleteBtn from './DeleteBtn'
 import EditBtn from './EditBtn'
 
 const Rows = ({rows,columnHead}) => {
+    const {handleListCheck, mainCheck} = useCheck()
+   
     return (
         <tbody>
             {rows.map((row, index) => {
@@ -12,7 +16,7 @@ const Rows = ({rows,columnHead}) => {
                         columnHead.map((col, index) => {
                             if (col.id === "select") {
                                 return (
-                                    <td key={index}><input type="checkbox" /></td>
+                                    <td key={index}><Check id={row._id} handleListCheck={handleListCheck} mainCheck={mainCheck}/></td>
                                 )
                             }
                             if (col.id === '_id') {

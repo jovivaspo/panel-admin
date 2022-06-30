@@ -20,6 +20,7 @@ function App() {
      <Router>
             <Routes>
               <Route path='/login' element={<Login />} />
+              <Route path='/' element={<PrivateRoutes><Home /></PrivateRoutes>} />
               <Route path='/usuarios' element={<PrivateRoutes><Home /></PrivateRoutes>} />
               <Route path='/notas' element={<PrivateRoutes><Notes /></PrivateRoutes>} />
               <Route path='/user/:id' element={<PrivateRoutes><User /></PrivateRoutes>} />

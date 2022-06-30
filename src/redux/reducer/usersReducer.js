@@ -62,6 +62,37 @@ export const deleteUser = createAsyncThunk('/deleteUser', async ({ token, userID
   return thunkAPI.rejectWithValue()
 })
 
+export const createUser = createAsyncThunk('/createUser', async({token, name, email, password}, thunkAPI)=>{
+  try{
+    const res = await helpHttp().post(api.user,{
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body:{
+        name,
+        email,
+        password
+      }
+    })
+
+    if(res.error){
+      const error = handlerError(res.error, thunkAPI)
+      throw new Error(error)
+    }
+    console.log(res)
+    return res
+
+  }catch(error){
+    console.log(error)
+    thunkAPI.dispatch(setMessage({
+      message:error.message,
+      type:'error'
+    }))
+    return thunkAPI.rejectWithValue()
+  }
+})
+
 
 
 const userSlice = createSlice({
@@ -83,6 +114,12 @@ const userSlice = createSlice({
       state.users = state.users.filter(user => user._id !== action.payload.id)
     },
     [deleteUser.rejected]: (state, action) => {
+      state.users = state.users
+    },
+    [createUser.fulfilled]: (state,action)=> {
+      state.users = state.users.concat(action.payload.user)
+    },
+    [createUser.rejected]: (state)=>{
       state.users = state.users
     }
   }

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Button from '../components/Button'
 import Table from '../components/Table'
 import { getUsers } from '../redux/reducer/usersReducer'
-import useModal from '../Hooks/useModal'
+import useModal from '../hooks/useModal'
 import ModalCreateUser from '../components/ModalCreateUser'
 
 
@@ -17,10 +17,10 @@ const Home = ({theme}) => {
   useEffect(() => {
     dispatch(getUsers(admin.token))
   }, [])
-  console.log(users)
+  
   return (
     <>
-      {users.length === 0 ?
+      {users?.length === 0 ?
         <h4 style={{
           margin:40
         }}>No hay usuarios registrados</h4>
