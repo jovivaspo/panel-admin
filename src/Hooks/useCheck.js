@@ -17,6 +17,6 @@ export const useCheck = (users) => {
         !listCheck.includes(id)?  setListCheck([...listCheck,id]) : setListCheck(listCheck.filter(el=>el!==id))
     }
 
-    return { mainCheck, setMainCheck, handleListCheck, listCheck }
+    return { mainCheck, setMainCheck, handleListCheck, listCheck, setListCheck }
 
 }

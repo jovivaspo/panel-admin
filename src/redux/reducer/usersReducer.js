@@ -62,6 +62,8 @@ export const deleteUser = createAsyncThunk('/deleteUser', async ({ token, userID
   return thunkAPI.rejectWithValue()
 })
 
+
+
 export const createUser = createAsyncThunk('/createUser', async({token, name, email, password}, thunkAPI)=>{
   try{
     const res = await helpHttp().post(api.user,{
@@ -110,7 +112,6 @@ const userSlice = createSlice({
       state.users = []
     },
     [deleteUser.fulfilled]: (state, action) => {
-      console.log(action.payload)
       state.users = state.users.filter(user => user._id !== action.payload.id)
     },
     [deleteUser.rejected]: (state, action) => {

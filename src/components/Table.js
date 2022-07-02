@@ -4,6 +4,8 @@ import Columns from './Columns'
 import Rows from './Rows'
 import { useCheck } from '../hooks/useCheck'
 import Button from './Button'
+import { useDispatch, useSelector } from 'react-redux/es/exports'
+import { deleteSomeUser, deleteUser } from '../redux/reducer/usersReducer'
 
 const columnHead = [
     {
@@ -38,9 +40,29 @@ const columnHead = [
 
 const Table = ({ users }) => {
 
-    const { mainCheck, setMainCheck, handleListCheck, listCheck } = useCheck(users)
+    const dispatch = useDispatch()
+    const {token} = useSelector(state => state.admin)
+
+    const { mainCheck, setMainCheck, handleListCheck, listCheck, setListCheck } = useCheck(users)
 
     console.log(listCheck)
+
+    const handleDeleteBtn = () =>{
+        const confirm = window.confirm("¿Desea borrar el usuario?")
+        if (!confirm) return false
+        Promise.all(listCheck.map(id=>{
+            return dispatch(deleteUser({token,userID:id}))
+        }))
+        .then(res=>{
+            listCheck.forEach(id=>{
+                setListCheck(listCheck.filter(el=>el!==id))
+                if(mainCheck) setMainCheck(false)
+            })
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
 
     return (
         <div className='container-table'>
@@ -53,7 +75,7 @@ const Table = ({ users }) => {
                 width: "100%",
                 background:"red"
             }}>
-                {listCheck.length !== 0 && <Button content={`Borrar (${listCheck.length})`} clase={"btn-del-out-table"} />}
+                {listCheck.length !== 0 && <Button content={`Borrar (${listCheck.length})`} clase={"btn-del-out-table"} action={handleDeleteBtn}/>}
             </div>
 
         </div>
