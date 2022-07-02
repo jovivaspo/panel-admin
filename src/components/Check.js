@@ -1,24 +1,23 @@
 import { useEffect } from 'react'
-import {useState} from 'react'
+import { useState } from 'react'
 
 
-const Check = ({id, handleListCheck, mainCheck}) => {
-    const [check ,setCheck] = useState(false)
+const Check = ({ id, listCheck, handleListCheck }) => {
 
-    const handleCheck = () => {
-        setCheck(!check)
-        handleListCheck(id)
-    }
+  const [check, setCheck] = useState(listCheck.includes(id))
 
-    useEffect(()=>{
-        if(mainCheck){
-            setCheck(true)
-            handleListCheck(id,true)
-        }
-    },[mainCheck])
+
+  const handleCheck = () => {
+    handleListCheck(id)
+  }
+
+  useEffect(()=>{
+    setCheck(listCheck.includes(id))
+  },[listCheck])
+
 
   return (
-    <input type="checkbox" id={id} value={check} onClick={handleCheck}/>
+    <input type="checkbox" value={id} checked={check} onChange={handleCheck} />
   )
 }
 

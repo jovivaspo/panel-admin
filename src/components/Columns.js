@@ -1,17 +1,15 @@
 import React from 'react'
-import { useCheck } from '../hooks/useCheck'
 
 
-const Columns = ({ columnHead }) => {
-    const {mainCheck, setMainCheck} = useCheck()
-    console.log(mainCheck)
+const Columns = ({ columnHead, mainCheck, setMainCheck }) => {
+    
     return (
         <thead>
             <tr>
                 {columnHead.map((column, index) => {
                     if (column.name === 'Select') {
                         return (
-                            <th key={index}><input type="checkbox" value={mainCheck} onClick={()=>setMainCheck(!(mainCheck))}/></th>
+                            <th key={index}><input type="checkbox" checked={mainCheck} onChange={()=>setMainCheck(!(mainCheck))}/></th>
                         )
                     }
                     return (

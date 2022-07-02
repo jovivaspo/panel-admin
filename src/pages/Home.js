@@ -25,7 +25,7 @@ const Home = ({theme}) => {
           margin:40
         }}>No hay usuarios registrados</h4>
         :
-        <Table rows={users} />}
+        <Table users={users} />}
         <Button content={"Crear Usuario"} theme={theme} clase={"create-user"} action={handleModal}/>
         {show && <ModalCreateUser handleModal={handleModal}/>}
     </>

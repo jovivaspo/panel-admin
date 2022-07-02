@@ -1,24 +1,22 @@
 import { useEffect } from "react"
 import { useState } from "react"
 
-export const useCheck = () => {
+export const useCheck = (users) => {
     const [mainCheck, setMainCheck] = useState(false)
     const [listCheck ,setListCheck] = useState([])
 
-   console.log(listCheck)
+    useEffect(()=>{
+        if(!mainCheck){
+            setListCheck([])
+        }else{
+            setListCheck(users.map(el=>el._id))
+        }
+    },[mainCheck])
 
-    const handleListCheck = (id, main=false) => {
-        console.log("first")
-            if(!listCheck.includes(id)){
-                console.log("tal")
-                setListCheck([...listCheck,id]) 
-               
-             }else if(main === false){
-                console.log("tal 1")
-                setListCheck(listCheck.filter(check=>check!== id)) 
-             }}
-   
+    const handleListCheck = (id) => {
+        !listCheck.includes(id)?  setListCheck([...listCheck,id]) : setListCheck(listCheck.filter(el=>el!==id))
+    }
 
-    return { mainCheck, setMainCheck, handleListCheck }
+    return { mainCheck, setMainCheck, handleListCheck, listCheck }
 
 }

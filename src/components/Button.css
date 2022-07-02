@@ -25,3 +25,10 @@
         bottom: 10px;
         right: 10px;
 }
+
+.btn-del-out-table{
+      position: absolute;
+      top: 16px;
+      right: 4px;
+
+}
