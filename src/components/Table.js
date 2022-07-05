@@ -73,7 +73,7 @@ const Table = ({ users }) => {
             <div style={{
                 position: "relative",
                 width: "100%",
-                background:"red"
+               
             }}>
                 {listCheck.length !== 0 && <Button content={`Borrar (${listCheck.length})`} clase={"btn-del-out-table"} action={handleDeleteBtn}/>}
             </div>

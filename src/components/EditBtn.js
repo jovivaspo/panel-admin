@@ -3,14 +3,18 @@ import { useContext } from 'react'
 import { ThemeContext } from '../context/ThemeContext'
 import EditSvg from './EditSvg'
 import './EditBtn.css'
-import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const EditBtn = ({userID}) => {
-    const {token} = useSelector(state => state.admin)
     const {theme} = useContext(ThemeContext)
+    const navigate = useNavigate()
+
+    const handleEdit = () => {
+      navigate(`/user/${userID}`)
+    }
 
   return (
-    <button className='opt-btn'>
+    <button className='opt-btn' onClick={handleEdit}>
         <EditSvg stroke={theme.text}/>
     </button>
   )

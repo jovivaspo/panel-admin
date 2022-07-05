@@ -1,0 +1,55 @@
+.title-user{
+    margin-top: 30px;
+    margin-left: 30px;
+    color: #1D9BF0;
+    text-transform: uppercase;
+
+}
+
+.container-datauser{
+    width: 700px;
+    margin: 0 auto;
+    margin-top: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+ 
+}
+
+.form-datauser{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap:20px
+}
+
+.container-input{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.form-datauser input {
+    width: 80%;
+    height: 36px;
+    font-size: 16px;
+    margin-bottom: 6px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    color: black;
+    padding: 16px;
+
+}
+
+.form-datauser input::placeholder {
+    font-size: 16px;
+}
+
+.form-datauser input:focus {
+    outline: none;
+    border-bottom: 1px solid #1D9BF0;
+}
