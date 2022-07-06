@@ -9,7 +9,7 @@ import Sidebar from './Sidebar'
 const PrivateRoutes = ({ children }) => {
 
     const admin = useSelector(state => state.admin)
-    const {theme} = useContext(ThemeContext)
+    const { theme } = useContext(ThemeContext)
 
     return (
         admin.token ?
@@ -18,7 +18,7 @@ const PrivateRoutes = ({ children }) => {
             }}>
                 <Layout theme={theme}>
                     <Sidebar theme={theme} />
-                    {children}
+                        {children}
                 </Layout>
             </div >
 

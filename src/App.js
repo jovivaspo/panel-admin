@@ -12,7 +12,7 @@ import PrivateRoutes from './components/PrivateRoutes'
 function App() {
   const message = useSelector(state => state.message)
   return (
-    <>
+    <div>
      <Router>
             <Routes>
               <Route path='/login' element={<Login />} />
@@ -24,7 +24,7 @@ function App() {
             </Routes>
       </Router>
       {message.message && <Alert />}
-    </>
+    </div>
   );
 }
 

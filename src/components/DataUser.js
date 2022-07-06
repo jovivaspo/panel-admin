@@ -11,7 +11,7 @@ const DataUser = ({ user, theme }) => {
 
                     {Object.keys(user).map((key, index) => {
                         const value = user[key]
-                        if (key !== 'notes') {
+                        if (key !== 'notes' && key !=='school') {
                             return (
                                 <div className='container-input' key={index}>
                                     <label htmlFor={key}>{key}: </label>

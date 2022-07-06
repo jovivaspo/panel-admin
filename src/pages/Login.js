@@ -4,7 +4,7 @@ import FormLogin from '../components/FormLogin'
 
 const Login = () => {
   return (
-    <div>
+    <div style={{padding:50,height:'100vh'}}>
         <FormLogin/>
     </div>
   )
